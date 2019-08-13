@@ -5,6 +5,9 @@ dist: trusty
 
 git:
   depth: 1
+  
+before_install:
+  - pip install --user codecov
 
 branches:
   only:
@@ -221,3 +224,5 @@ matrix:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
   allow_failures:
     - env: ALLOW_FAILURES=true
+  after_success: 
+    - codecov -t 39285ee5-9536-44ee-8d9c-2f1a46e851e5
