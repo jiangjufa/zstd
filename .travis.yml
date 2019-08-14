@@ -226,4 +226,4 @@ matrix:
   allow_failures:
     - env: ALLOW_FAILURES=true
   after_success: 
-    - codecov -t 39285ee5-9536-44ee-8d9c-2f1a46e851e5
+    - codecov -t 39285ee5-9536-44ee-8d9c-2f1a46e851e5  -X gcov
