@@ -11,6 +11,7 @@ branches:
   - dev
   - master
   - travisTest
+  - travisCiTest
 
 addons:
   apt:
@@ -27,11 +28,11 @@ matrix:
   fast_finish: true
   include:
     - name: Trusty (Versions Compatibility Test)
-	script:
+    script:
 	- make -C tests versionsTest
 
-      after_failure:
-        - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
+    after_failure:
+       - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
 
   allow_failures:
     - env: ALLOW_FAILURES=true
