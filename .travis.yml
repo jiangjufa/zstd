@@ -9,7 +9,8 @@ before_install:
 
 dist: trusty
 
-branches:  only:
+branches:  
+  only:
   - dev
   - master
   - travisTest
