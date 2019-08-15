@@ -47,14 +47,14 @@ matrix:
     - name: gcc-8 + ASan + UBSan + Test Zstd
       script:
         - make gcc8install  $MAKE_CMD_OPTION
-        - CC=gcc-8   CFLAGS+="-Werror" make -j all   $MAKE_CMD_OPTION
+        - CC=gcc-8   CFLAGS+=-Werror make -j all   $MAKE_CMD_OPTION
         - make clean
         - CC=gcc-8   make -j uasan-test-zstd  $MAKE_CMD_OPTION </dev/null   # test when stdin is not a tty
 
     - name: gcc-6 + ASan + UBSan + Test Zstd, 32bit mode
       script:
         - make gcc6install libc6install $MAKE_CMD_OPTION
-        - CC=gcc-6   CFLAGS+="-Werror -m32" make -j all32  $MAKE_CMD_OPTION
+        - CC=gcc-6   CFLAGS+=-Werror -m32 make -j all32  $MAKE_CMD_OPTION
         - make clean
         - CC=gcc-6   make -j uasan-test-zstd32  $MAKE_CMD_OPTION  # note : can complain about pointer overflow
 
