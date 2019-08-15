@@ -17,8 +17,7 @@ addons:
   apt:
     update: true
     packages:
-    - lcov
-
+      - lcov
 env:
   global:
     - FUZZERTEST=-T2mn
