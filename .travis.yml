@@ -27,7 +27,8 @@ env:
 
 before_install:
   - pip install --user codecov
-  - pip install --user coverage
+  - pip install --user clang
+  - pip install --user gcov
 
 matrix:
   fast_finish: true
