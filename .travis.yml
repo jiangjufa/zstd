@@ -25,7 +25,6 @@ env:
       DECODECORPUS_TESTTIME=-T1mn
     - CODECOV_TOKEN=:39285ee5-9536-44ee-8d9c-2f1a46e851e5
     - MAKE_CMD_OPTION="coverage=yes"
-    - MAKE_OPTION="-fprofile-arcs  -ftest-coverage "
 
 before_install:
   - pip install --user codecov
@@ -40,43 +39,43 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install $MAKE_CMD_OPTION
-        - CC=gcc-6  CFLAGS=-Werror $MAKE_OPTION make -j all  $MAKE_CMD_OPTION
+        - CC=gcc-6  CFLAGS=-Werror make -j all  $MAKE_CMD_OPTION
         - make clean
-        - CC=gcc-7  CFLAGS=-Werror $MAKE_OPTION make -j all  $MAKE_CMD_OPTION
+        - CC=gcc-7  CFLAGS=-Werror make -j all  $MAKE_CMD_OPTION
 
     - name: gcc-8 + ASan + UBSan + Test Zstd
       script:
         - make gcc8install  $MAKE_CMD_OPTION
-        - CC=gcc-8   CFLAGS="-Werror $MAKE_OPTION" make -j all   $MAKE_CMD_OPTION
+        - CC=gcc-8   CFLAGS="-Werror" make -j all   $MAKE_CMD_OPTION
         - make clean
         - CC=gcc-8   make -j uasan-test-zstd  $MAKE_CMD_OPTION </dev/null   # test when stdin is not a tty
 
     - name: gcc-6 + ASan + UBSan + Test Zstd, 32bit mode
       script:
         - make gcc6install libc6install $MAKE_CMD_OPTION
-        - CC=gcc-6   CFLAGS="-Werror -m32 $MAKE_OPTION" make -j all32  $MAKE_CMD_OPTION
+        - CC=gcc-6   CFLAGS="-Werror -m32" make -j all32  $MAKE_CMD_OPTION
         - make clean
-        - CC=gcc-6  CFLAGS="$MAKE_OPTION" make -j uasan-test-zstd32  $MAKE_CMD_OPTION  # note : can complain about pointer overflow
+        - CC=gcc-6   make -j uasan-test-zstd32  $MAKE_CMD_OPTION  # note : can complain about pointer overflow
 
     - name: Trusty (clang-3.8 + MSan + Test Zstd)
       script:
         - make clang38install  $MAKE_CMD_OPTION
-        - CC=clang-3.8  CFLAGS="$MAKE_OPTION" make clean msan-test-zstd  $MAKE_CMD_OPTION
+        - CC=clang-3.8   make clean msan-test-zstd  $MAKE_CMD_OPTION
 
     - name: Trusty (Minimal Decompressor Macros)
       script:
         - make clean 
-        - CFLAGS=-Werror $MAKE_OPTION make -j all $MAKE_CMD_OPTION MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X1 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_SHORT "
+        - CFLAGS=-Werror make -j all $MAKE_CMD_OPTION MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X1 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_SHORT "
         - make clean
-        - make -j check $MAKE_CMD_OPTION MOREFLAGS="-Werror $MAKE_OPTION -DHUF_FORCE_DECOMPRESS_X1 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_SHORT "
+        - make -j check $MAKE_CMD_OPTION MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X1 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_SHORT "
         - make clean
-        - CFLAGS=-Werror make -j all $MAKE_CMD_OPTION MOREFLAGS="-Werror  $MAKE_OPTION -DHUF_FORCE_DECOMPRESS_X2 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_LONG "
+        - CFLAGS=-Werror make -j all $MAKE_CMD_OPTION MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X2 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_LONG "
         - make clean
-        - make -j check $MAKE_CMD_OPTION  MOREFLAGS="-Werror $MAKE_OPTION -DHUF_FORCE_DECOMPRESS_X2 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_LONG "
+        - make -j check $MAKE_CMD_OPTION  MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X2 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_LONG "
         - make clean
-        - CFLAGS=-Werror $MAKE_OPTION make -j all $MAKE_CMD_OPTION MOREFLAGS="-Werror -DZSTD_NO_INLINE -DZSTD_STRIP_ERROR_STRINGS "
+        - CFLAGS=-Werror make -j all $MAKE_CMD_OPTION MOREFLAGS="-Werror -DZSTD_NO_INLINE -DZSTD_STRIP_ERROR_STRINGS "
         - make clean
-        - make -j check $MAKE_CMD_OPTION MOREFLAGS="-Werror $MAKE_OPTION -DZSTD_NO_INLINE -DZSTD_STRIP_ERROR_STRINGS "
+        - make -j check $MAKE_CMD_OPTION MOREFLAGS="-Werror -DZSTD_NO_INLINE -DZSTD_STRIP_ERROR_STRINGS "
 
     - name: Trusty (CMake)
       script:
@@ -94,7 +93,7 @@ matrix:
     - name: Trusty (gcc-6 + ASan + UBSan + Fuzz Test 32bit)
       script:
         - make gcc6install libc6install  $MAKE_CMD_OPTION
-        - CC=gcc-6   CFLAGS="-O2 -m32 $MAKE_OPTION" make uasan-fuzztest $MAKE_CMD_OPTION  # can complain about pointer overflow
+        - CC=gcc-6   CFLAGS="-O2 -m32" make uasan-fuzztest $MAKE_CMD_OPTION  # can complain about pointer overflow
 
     - name: Trusty (clang-3.8 + MSan + Fuzz Test)
       script:
