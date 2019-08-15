@@ -25,7 +25,6 @@ env:
       DECODECORPUS_TESTTIME=-T1mn
     - CODECOV_TOKEN=:39285ee5-9536-44ee-8d9c-2f1a46e851e5
     - MAKE_CMD_OPTION="coverage=yes"
-    - CC="clang -coverage "
 
 before_install:
   - pip install --user codecov
@@ -42,9 +41,9 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC+=   CFLAGS=-Werror make -j all
+        - CC+=clang -coverage  CFLAGS=-Werror make -j all
         - make clean
-        - CC+=     CFLAGS=-Werror make -j all
+        - CC+=clang -coverage     CFLAGS=-Werror make -j all
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
