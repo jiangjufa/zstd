@@ -18,6 +18,7 @@ addons:
     update: true
     packages:
       - lcov
+      - coverage
 env:
   global:
     - FUZZERTEST=-T2mn
@@ -40,9 +41,9 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6 CFLAGS=-Werror make -j all $MAKE_CMD_OPTION
+        - CC=gcc-6 CFLAGS=-Werror -coverage make -j all
         - make clean
-        - CC=gcc-7   CFLAGS=-Werror make -j all   $MAKE_CMD_OPTION
+        - CC=gcc-7   CFLAGS=-Werror -coverage  make -j all
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
