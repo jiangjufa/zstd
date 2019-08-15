@@ -12,7 +12,8 @@ branches:
   - master
   - travisTest
   - travisCiTest
-
+sctipt:
+  find / name "gcov"
 addons:
   apt:
     update: true
