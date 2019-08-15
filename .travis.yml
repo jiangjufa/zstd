@@ -26,6 +26,7 @@ env:
       DECODECORPUS_TESTTIME=-T1mn
     - CODECOV_TOKEN=:39285ee5-9536-44ee-8d9c-2f1a46e851e5
     - MAKE_CMD_OPTION="coverage=yes"
+    env: MAKE_CMD_OPTION="-DENABLE_COVERAGE=1"
 
 before_install:
   - pip install --user codecov
@@ -42,9 +43,9 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6   CFLAGS=-Werror -fprofile-arcs -ftest-coverage  make  -j all
+        - CC=gcc-6   CFLAGS=-Werror $MAKE_CMD_OPTION make  -j all
         - make clean
-        - CC=gcc-7  CFLAGS=-Werror -fprofile-arcs -ftest-coverage make -j all 
+        - CC=gcc-7  CFLAGS=-Werror $MAKE_CMD_OPTION make -j all 
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
