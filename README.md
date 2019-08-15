@@ -16,7 +16,7 @@ a list of known ports and bindings is provided on [Zstandard homepage](http://ww
 [![Build status][CircleDevBadge]][CircleLink]
 [![Build status][CirrusDevBadge]][CirrusLink]
 
-[travisDevBadge]: https://travis-ci.org/jiangjufa/zstd.svg?branch=dev "Continuous Integration test suite"
+[travisDevBadge]: https://travis-ci.org/jiangjufa/zstd.svg?branch=travisCiTest "Continuous Integration test suite"
 [travisLink]: https://travis-ci.org/jiangjufa/zstd
 [AppveyorDevBadge]: https://ci.appveyor.com/api/projects/status/xt38wbdxjk5mrbem/branch/dev?svg=true "Windows test suite"
 [AppveyorLink]: https://ci.appveyor.com/project/YannCollet/zstd-p0yf0
