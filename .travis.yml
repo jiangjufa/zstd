@@ -30,6 +30,7 @@ before_install:
   - pip install --user codecov
   - pip install --user clang
   - pip install --user coverage
+  - sudo apt-get install gcov
 
 matrix:
   fast_finish: true
@@ -41,9 +42,9 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6   CFLAGS=-Werror -coverage  make  -j all
+        - CC=gcc-6   CFLAGS=-Werror -fprofile-arcs -ftest-coverage  make  -j all
         - make clean
-        - CC=gcc-7  CFLAGS=-Werror –coverage make -j all 
+        - CC=gcc-7  CFLAGS=-Werror -fprofile-arcs -ftest-coverage make -j all 
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
