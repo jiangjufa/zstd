@@ -43,9 +43,9 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6   CFLAGS=-Werror $MAKE_CMD_OPTION make  -j all
+        - CC=gcc-6   CFLAGS=-Werror make  $MAKE_CMD_OPTION -j all
         - make clean
-        - CC=gcc-7  CFLAGS=-Werror $MAKE_CMD_OPTION make -j all 
+        - CC=gcc-7  CFLAGS=-Werror make  $MAKE_CMD_OPTION -j all 
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
