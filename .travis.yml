@@ -31,7 +31,6 @@ before_install:
   - pip install --user codecov
   - pip install --user clang
   - pip install --user coverage
-  - sudo apt-get install gcov
 
 matrix:
   fast_finish: true
