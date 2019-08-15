@@ -24,7 +24,7 @@ env:
       ZSTREAM_TESTTIME=-T2mn
       DECODECORPUS_TESTTIME=-T1mn
     - CODECOV_TOKEN=:39285ee5-9536-44ee-8d9c-2f1a46e851e5
-    - MAKE_CMD_OPTION="-DENABLE_COVERAGE=1"
+    - MAKE_CMD_OPTION="coverage=yes"
 
 before_install:
   - pip install --user codecov
@@ -38,102 +38,102 @@ matrix:
 
     - name: gcc-6 + gcc-7 compilation
       script:
-        - make gcc6install gcc7install
-        - CC=gcc-6  CFLAGS=-Werror make -j all $MAKE_CMD_OPTION
+        - make gcc6install gcc7install $MAKE_CMD_OPTION
+        - CC=gcc-6  CFLAGS=-Werror make -j all  $MAKE_CMD_OPTION
         - make clean
-        - CC=gcc-7  CFLAGS=-Werror make -j all $MAKE_CMD_OPTION
+        - CC=gcc-7  CFLAGS=-Werror make -j all  $MAKE_CMD_OPTION
 
     - name: gcc-8 + ASan + UBSan + Test Zstd
       script:
-        - make gcc8install $MAKE_CMD_OPTION
-        - CC=gcc-8   CFLAGS="-Werror" make -j all  $MAKE_CMD_OPTION
+        - make gcc8install 
+        - CC=gcc-8   CFLAGS="-Werror" make -j all  
         - make clean
-        - CC=gcc-8   make -j uasan-test-zstd $MAKE_CMD_OPTION </dev/null   # test when stdin is not a tty
+        - CC=gcc-8   make -j uasan-test-zstd  </dev/null   # test when stdin is not a tty
 
     - name: gcc-6 + ASan + UBSan + Test Zstd, 32bit mode
       script:
-        - make gcc6install libc6install $MAKE_CMD_OPTION
-        - CC=gcc-6   CFLAGS="-Werror -m32" make -j all32 $MAKE_CMD_OPTION
+        - make gcc6install libc6install 
+        - CC=gcc-6   CFLAGS="-Werror -m32" make -j all32 
         - make clean
-        - CC=gcc-6   make -j uasan-test-zstd32 $MAKE_CMD_OPTION  # note : can complain about pointer overflow
+        - CC=gcc-6   make -j uasan-test-zstd32   # note : can complain about pointer overflow
 
     - name: Trusty (clang-3.8 + MSan + Test Zstd)
       script:
-        - make clang38install $MAKE_CMD_OPTION
-        - CC=clang-3.8   make clean msan-test-zstd $MAKE_CMD_OPTION
+        - make clang38install 
+        - CC=clang-3.8   make clean msan-test-zstd 
 
     - name: Trusty (Minimal Decompressor Macros)
       script:
-        - make clean $MAKE_CMD_OPTION
-        - CFLAGS=-Werror make -j all MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X1 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_SHORT $MAKE_CMD_OPTION"
+        - make clean 
+        - CFLAGS=-Werror make -j all MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X1 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_SHORT "
         - make clean
-        - make -j check MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X1 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_SHORT $MAKE_CMD_OPTION"
+        - make -j check MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X1 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_SHORT "
         - make clean
-        - CFLAGS=-Werror make -j all MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X2 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_LONG $MAKE_CMD_OPTION"
+        - CFLAGS=-Werror make -j all MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X2 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_LONG "
         - make clean
-        - make -j check MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X2 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_LONG $MAKE_CMD_OPTION"
+        - make -j check MOREFLAGS="-Werror -DHUF_FORCE_DECOMPRESS_X2 -DZSTD_FORCE_DECOMPRESS_SEQUENCES_LONG "
         - make clean
-        - CFLAGS=-Werror make -j all MOREFLAGS="-Werror -DZSTD_NO_INLINE -DZSTD_STRIP_ERROR_STRINGS $MAKE_CMD_OPTION"
+        - CFLAGS=-Werror make -j all MOREFLAGS="-Werror -DZSTD_NO_INLINE -DZSTD_STRIP_ERROR_STRINGS "
         - make clean
-        - make -j check MOREFLAGS="-Werror -DZSTD_NO_INLINE -DZSTD_STRIP_ERROR_STRINGS $MAKE_CMD_OPTION"
+        - make -j check MOREFLAGS="-Werror -DZSTD_NO_INLINE -DZSTD_STRIP_ERROR_STRINGS "
 
     - name: Trusty (CMake)
       script:
-        - make cmakebuild $MAKE_CMD_OPTION
+        - make cmakebuild 
 
     - name: Trusty (Static Analyze)
       script:
-        - make staticAnalyze $MAKE_CMD_OPTION
+        - make staticAnalyze 
 
     - name: Trusty (gcc-8 + ASan + UBSan + Fuzz Test)
       script:
-        - make gcc8install $MAKE_CMD_OPTION
-        - CC=gcc-8  make clean uasan-fuzztest $MAKE_CMD_OPTION
+        - make gcc8install 
+        - CC=gcc-8  make clean uasan-fuzztest 
 
     - name: Trusty (gcc-6 + ASan + UBSan + Fuzz Test 32bit)
       script:
-        - make gcc6install libc6install $MAKE_CMD_OPTION
-        - CC=gcc-6   CFLAGS="-O2 -m32" make uasan-fuzztest  $MAKE_CMD_OPTION # can complain about pointer overflow
+        - make gcc6install libc6install 
+        - CC=gcc-6   CFLAGS="-O2 -m32" make uasan-fuzztest   # can complain about pointer overflow
 
     - name: Trusty (clang-3.8 + MSan + Fuzz Test)
       script:
-        - make clang38install $MAKE_CMD_OPTION
-        - CC=clang-3.8   make clean msan-fuzztest $MAKE_CMD_OPTION
+        - make clang38install 
+        - CC=clang-3.8   make clean msan-fuzztest 
 
     - name: Trusty (ASan + UBSan + MSan + Regression Test)
       script:
-        - make -j uasanregressiontest $MAKE_CMD_OPTION
+        - make -j uasanregressiontest 
         - make clean
-        - make -j msanregressiontest $MAKE_CMD_OPTION
+        - make -j msanregressiontest 
 
     - name: Trusty (Valgrind + Fuzz Test Stack Mode)
       script:
-        - make valgrindinstall $MAKE_CMD_OPTION
-        - make -C tests clean valgrindTest $MAKE_CMD_OPTION
+        - make valgrindinstall 
+        - make -C tests clean valgrindTest 
         - make clean
-        - make -C tests test-fuzzer-stackmode $MAKE_CMD_OPTION
+        - make -C tests test-fuzzer-stackmode 
 
     - name: Trusty (ARM + Fuzz Test)
       script:
-        - make arminstall $MAKE_CMD_OPTION
-        - make armfuzz $MAKE_CMD_OPTION
+        - make arminstall 
+        - make armfuzz 
 
     - name: Xenial (AARCH64 + Fuzz Test)
       dist: xenial
       script:
-        - make arminstall $MAKE_CMD_OPTION
-        - make aarch64fuzz $MAKE_CMD_OPTION
+        - make arminstall 
+        - make aarch64fuzz 
 
     - name: Trusty (PPC + Fuzz Test)
       script:
-        - make ppcinstall $MAKE_CMD_OPTION
-        - make ppcfuzz $MAKE_CMD_OPTION
+        - make ppcinstall 
+        - make ppcfuzz 
 
     # check release number
     - name: Tag-Specific Test
       if: tag =~ ^v[0-9]\.[0-9]
       script:
-        - make -C tests checkTag $MAKE_CMD_OPTION
+        - make -C tests checkTag 
         - tests/checkTag "$TRAVIS_BRANCH"
 
     # tests for master branch and cron job only
@@ -141,50 +141,50 @@ matrix:
       if: branch = master
       os: osx
       script:
-        - make test $MAKE_CMD_OPTION
+        - make test 
 
     - name: thread sanitizer
       if: branch = master
       script:
-        - make clang38install $MAKE_CMD_OPTION
-        - CC=clang-3.8   make tsan-test-zstream $MAKE_CMD_OPTION
-        - CC=clang-3.8  make tsan-fuzztest $MAKE_CMD_OPTION
+        - make clang38install 
+        - CC=clang-3.8   make tsan-test-zstream 
+        - CC=clang-3.8  make tsan-fuzztest 
 
     - name: C++ and gnu90 compatibility
       if: branch = master
       script:
-        - make cxxtest $MAKE_CMD_OPTION
+        - make cxxtest 
         - make clean
-        - make gnu90build $MAKE_CMD_OPTION
+        - make gnu90build 
         - make clean
-        - make travis-install   $MAKE_CMD_OPTION  # just ensures `make install` works
+        - make travis-install     # just ensures `make install` works
 
     - name: c99 compatibility
       if: branch = master
       script:
         - make c99build
-        - make -C tests test-zstd $MAKE_CMD_OPTION
+        - make -C tests test-zstd 
 
     - name: PPC64
       if: branch = master
       script:
-        - make ppcinstall $MAKE_CMD_OPTION
-        - make ppc64fuzz $MAKE_CMD_OPTION
+        - make ppcinstall 
+        - make ppc64fuzz 
 
     - name: zlib wrapper test
       if: branch = master
       script:
-        - make gpp6install valgrindinstall $MAKE_CMD_OPTION
-        - make -C zlibWrapper test $MAKE_CMD_OPTION
-        - make -C zlibWrapper valgrindTest $MAKE_CMD_OPTION
+        - make gpp6install valgrindinstall 
+        - make -C zlibWrapper test 
+        - make -C zlibWrapper valgrindTest 
 
     - name: LZ4, thread pool, and partial libs tests
       if: branch = master
       script:
-        - make lz4install $MAKE_CMD_OPTION
-        - make -C tests test-lz4 $MAKE_CMD_OPTION
+        - make lz4install 
+        - make -C tests test-lz4 
         - make clean 
-        - make -C tests test-pool $MAKE_CMD_OPTION
+        - make -C tests test-pool 
         - make clean
         - bash tests/libzstd_partial_builds.sh
 
