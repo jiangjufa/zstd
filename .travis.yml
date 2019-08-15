@@ -40,7 +40,7 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6  CFLAGS=-Werror make -j all  $MAKE_CMD_OPTION
+        - CC=gcc-6  CFLAGS=-Werror make -j all $MAKE_CMD_OPTION
         - make clean
         - CC=gcc-7   CFLAGS=-Werror -j all  
 
