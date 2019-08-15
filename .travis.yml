@@ -18,7 +18,6 @@ addons:
     update: true
     packages:
       - lcov
-      - coverage
 env:
   global:
     - FUZZERTEST=-T2mn
@@ -30,6 +29,7 @@ env:
 before_install:
   - pip install --user codecov
   - pip install --user clang
+  - pip install --user coverage
 
 matrix:
   fast_finish: true
