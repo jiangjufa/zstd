@@ -36,14 +36,14 @@ matrix:
   include:
     - name: Trusty (Test All)
       script:
-        - make test  LDFLAGS=-fprofile-arcs -ftest-coverage
+        - make test
 
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6  LDFLAGS=-fprofile-arcs -ftest-coverage  CFLAGS=-Werror make -j all
+        - CC=gcc-6   CFLAGS=-Werror -fprofile-arcs -ftest-coverage make -j all
         - make clean
-        - CC=gcc-7  LDFLAGS=-fprofile-arcs -ftest-coverage  CFLAGS=-Werror make -j all 
+        - CC=gcc-7  CFLAGS=-Werror -fprofile-arcs -ftest-coverage make -j all 
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
