@@ -27,6 +27,7 @@ env:
 
 before_install:
   - pip install --user codecov
+  - pip install coverage 
 
 matrix:
   fast_finish: true
