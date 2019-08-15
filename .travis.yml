@@ -37,28 +37,28 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install
-        - CC=gcc-6 -coverage CFLAGS=-Werror make -j all
+        - CC=gcc-6  CFLAGS=-Werror make -j all
         - make clean
-        - CC=gcc-7 -coverage CFLAGS=-Werror make -j all
+        - CC=gcc-7  CFLAGS=-Werror make -j all
 
     - name: gcc-8 + ASan + UBSan + Test Zstd
       script:
         - make gcc8install
-        - CC=gcc-8 -coverage  CFLAGS="-Werror" make -j all
+        - CC=gcc-8   CFLAGS="-Werror" make -j all
         - make clean
-        - CC=gcc-8 -coverage  make -j uasan-test-zstd </dev/null   # test when stdin is not a tty
+        - CC=gcc-8   make -j uasan-test-zstd </dev/null   # test when stdin is not a tty
 
     - name: gcc-6 + ASan + UBSan + Test Zstd, 32bit mode
       script:
         - make gcc6install libc6install
-        - CC=gcc-6 -coverage  CFLAGS="-Werror -m32" make -j all32
+        - CC=gcc-6   CFLAGS="-Werror -m32" make -j all32
         - make clean
-        - CC=gcc-6 -coverage  make -j uasan-test-zstd32   # note : can complain about pointer overflow
+        - CC=gcc-6   make -j uasan-test-zstd32   # note : can complain about pointer overflow
 
     - name: Trusty (clang-3.8 + MSan + Test Zstd)
       script:
         - make clang38install
-        - CC=clang-3.8 -coverage  make clean msan-test-zstd
+        - CC=clang-3.8   make clean msan-test-zstd
 
     - name: Trusty (Minimal Decompressor Macros)
       script:
@@ -86,17 +86,17 @@ matrix:
     - name: Trusty (gcc-8 + ASan + UBSan + Fuzz Test)
       script:
         - make gcc8install
-        - CC=gcc-8 -coverage make clean uasan-fuzztest
+        - CC=gcc-8  make clean uasan-fuzztest
 
     - name: Trusty (gcc-6 + ASan + UBSan + Fuzz Test 32bit)
       script:
         - make gcc6install libc6install
-        - CC=gcc-6 -coverage  CFLAGS="-O2 -m32" make uasan-fuzztest   # can complain about pointer overflow
+        - CC=gcc-6   CFLAGS="-O2 -m32" make uasan-fuzztest   # can complain about pointer overflow
 
     - name: Trusty (clang-3.8 + MSan + Fuzz Test)
       script:
         - make clang38install
-        - CC=clang-3.8 -coverage  make clean msan-fuzztest
+        - CC=clang-3.8   make clean msan-fuzztest
 
     - name: Trusty (ASan + UBSan + MSan + Regression Test)
       script:
@@ -145,8 +145,8 @@ matrix:
       if: branch = master
       script:
         - make clang38install
-        - CC=clang-3.8  -coverage make tsan-test-zstream
-        - CC=clang-3.8 -coverage make tsan-fuzztest
+        - CC=clang-3.8   make tsan-test-zstream
+        - CC=clang-3.8  make tsan-fuzztest
 
     - name: C++ and gnu90 compatibility
       if: branch = master
@@ -191,7 +191,7 @@ matrix:
       # env: ALLOW_FAILURES=true
       dist: xenial
       language: cpp
-      compiler: clang -coverage 
+      compiler: clang  
       install:
         - sudo apt-get install -qq liblz4-dev valgrind tree
         - |
@@ -220,8 +220,7 @@ matrix:
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
       after_success: 
-        - codecov -t 39285ee5-9536-44ee-8d9c-2f1a46e851e5
-        - bash <（curl -s https://codecov.io/bash）
+        - codecov -t 39285ee5-9536-44ee-8d9c-2f1a46e851e5  -X gcov
 
   allow_failures:
     - env: ALLOW_FAILURES=true
