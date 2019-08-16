@@ -18,6 +18,8 @@ addons:
     update: true
     packages:
       - lcov
+script:
+  find ./ name "gcno"
 env:
   global:
     - FUZZERTEST=-T2mn
