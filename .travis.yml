@@ -26,7 +26,7 @@ env:
       DECODECORPUS_TESTTIME=-T1mn
     - CODECOV_TOKEN=:39285ee5-9536-44ee-8d9c-2f1a46e851e5
     - coverage=yes
-    - CFLAGS="-shared -fPIC -lgcov -ftest-coverage -fprofile-arcs "
+    - CFLAGS="-shared -fPIC -ftest-coverage -fprofile-arcs -lgcov "
 
 before_install:
   - pip install --user codecov
