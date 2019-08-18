@@ -25,7 +25,6 @@ env:
       ZSTREAM_TESTTIME=-T2mn
       DECODECORPUS_TESTTIME=-T1mn
     - CODECOV_TOKEN=:39285ee5-9536-44ee-8d9c-2f1a46e851e5
-    - FLAGS=/usr/lib/gcc/x86_64-linux-gnu/4.1.2/collect2 --eh-frame-hdr --build-id -m elf_i386 --hash-style=gnu -dynamic-linker /lib/ld-linux.so.2 /usr/lib/gcc/i386-redhat-linux/4.1.2/../../../crt1.o /usr/lib/gcc/x86_64-linux-gnu/4.1.2/../../../crti.o /usr/lib/gcc/x86_64-linux-gnu/4.1.2/crtbegin.otest.o -L/usr/lib/gcc/x86_64-linux-gnu/4.1.2 -L/usr/lib/gcc/i386-redhat-linux/4.1.2 -L/usr/lib/gcc/i386-redhat-linux/4.1.2/../../..-lgcov -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu -linux/4.1.2/crtend.o /usr/lib/gcc/x86_64-linux-gnu/4.1.2/../../../crtn.o
     - CFLAGS="$FLAGS -fprofile-arcs -ftest-coverage -v -lgcov "
 before_install:
   - pip install --user codecov
@@ -35,14 +34,8 @@ matrix:
   include:
     - name: Trusty (Test All)
       script:
-        - make  test
+        - gcc -v
 
-    - name: gcc-6 + gcc-7 compilation
-      script:
-        - make gcc6install gcc7install 
-        - CC=gcc-6   CFLAGS+=-Werror  make coverage=yes -j all
-        - make clean
-        - CC=gcc-7  CFLAGS+=-Werror make coverage=yes -j all
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
