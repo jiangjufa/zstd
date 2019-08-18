@@ -43,9 +43,9 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6   CFLAGS+=-Werror make -j all LDFLAGS+=-fprofile-arcs
+        - CC=gcc-6   CFLAGS+=-Werror make -j all LDFLAGS+=-shared -fPIC -fprofile-arcs
         - make clean
-        - CC=gcc-7  CFLAGS+=-Werror make -j all  LDFLAGS+=-fprofile-arcs
+        - CC=gcc-7  CFLAGS+=-Werror make -j all  LDFLAGS+=-shared -fPIC -fprofile-arcs
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
