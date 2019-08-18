@@ -29,8 +29,10 @@ env:
     
 before_install:
   - pip install --user codecov
-  - ulimit -c unlimited
   - export LDFLAGS+="-shared -fPIC -lgcov -fprofile-arcs -ftest-coverage "
+before_script:
+  - echo "ulimit -c unlimited" >> /etc/security/limits.conf
+  - source /etc/security/limits.conf
 
 matrix:
   fast_finish: true
