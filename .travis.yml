@@ -26,8 +26,7 @@ env:
       DECODECORPUS_TESTTIME=-T1mn
     - CODECOV_TOKEN=:39285ee5-9536-44ee-8d9c-2f1a46e851e5
     - coverage=yes
-    - CFLAGS="-ftest-coverage -fprofile-arcs "
-    - LDFLAGS += " -lgcov --coverage"
+    - CFLAGS="-lgcov -ftest-coverage -fprofile-arcs "
 
 before_install:
   - pip install --user codecov
@@ -43,9 +42,9 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6 $LDFLAGS  CFLAGS+=-Werror $LDFLAGS make -j all
+        - CC=gcc-6 $LDFLAGS  CFLAGS+=-Werror  make -j all
         - make clean
-        - CC=gcc-7  CFLAGS+=-Werror $LDFLAGS make -j all
+        - CC=gcc-7  CFLAGS+=-Werror make -j all
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
