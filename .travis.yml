@@ -29,7 +29,7 @@ env:
     
 before_install:
   - pip install --user codecov
-  - export LDFLAGS="-fprofile-arcs -ftest-coverage -lgcov "
+  - export LDFLAGS+="-fprofile-arcs -ftest-coverage -lgcov "
 
 matrix:
   fast_finish: true
