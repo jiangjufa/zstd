@@ -22,11 +22,11 @@ env:
       ZSTREAM_TESTTIME=-T2mn
       DECODECORPUS_TESTTIME=-T1mn
     - CODECOV_TOKEN=:39285ee5-9536-44ee-8d9c-2f1a46e851e5
-    - CFLAGS="--coverage "
     
 before_install:
   - pip install --user codecov
   - export LDFLAGS+="-lgcov --coverage "
+  - export CFLAGS="--coverage "
 
 matrix:
   fast_finish: true
