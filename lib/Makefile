@@ -18,8 +18,6 @@ LIBVER_PATCH := $(shell echo $(LIBVER_PATCH_SCRIPT))
 LIBVER := $(shell echo $(LIBVER_SCRIPT))
 VERSION?= $(LIBVER)
 CCVER := $(shell $(CC) --version)
-GCOV_FLAGS = -fprofile-arcs -ftest-coverage -lgcov
-CFLAGS += $(GCOV_FLAGS)
 
 CPPFLAGS+= -I. -I./common -DXXH_NAMESPACE=ZSTD_
 ifeq ($(OS),Windows_NT)   # MinGW assumed
