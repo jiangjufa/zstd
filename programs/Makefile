@@ -42,10 +42,6 @@ else
 ALIGN_LOOP =
 endif
 
-GCOV_FLAGS = -fprofile-arcs -ftest-coverage -lgcov
-CFLAGS += $(GCOV_FLAGS)
-LDFLAGS += $(GCOV_FLAGS) 
-
 CPPFLAGS+= -I$(ZSTDDIR) -I$(ZSTDDIR)/common -I$(ZSTDDIR)/compress \
            -I$(ZSTDDIR)/dictBuilder \
            -DXXH_NAMESPACE=ZSTD_
