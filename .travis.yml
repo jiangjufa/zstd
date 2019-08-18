@@ -25,8 +25,8 @@ env:
       ZSTREAM_TESTTIME=-T2mn
       DECODECORPUS_TESTTIME=-T1mn
     - CODECOV_TOKEN=:39285ee5-9536-44ee-8d9c-2f1a46e851e5
-    - FLAGS=/usr/lib/gcc/x86_64-linux-gnu/4.8/collect2
-    - CFLAGS="$FLAGS -fprofile-arcs -ftest-coverage -lgcov "
+    - CFLAGS="-fprofile-arcs -ftest-coverage "
+    - LDFLAGS="-fprofile-arcs -ftest-coverage "
 before_install:
   - pip install --user codecov
 
@@ -40,9 +40,9 @@ matrix:
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6   CFLAGS+=-Werror  make coverage=yes -j all
+        - CC=gcc-6   CFLAGS+=-Werror  make -j all  $LDFLAGS
         - make clean
-        - CC=gcc-7  CFLAGS+=-Werror make coverage=yes -j all
+        - CC=gcc-7  CFLAGS+=-Werror make -j all $LDFLAGS
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
