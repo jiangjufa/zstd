@@ -29,6 +29,7 @@ env:
     
 before_install:
   - pip install --user codecov
+  - ulimit -c unlimited
   - export LDFLAGS+="-shared -fPIC -lgcov -fprofile-arcs -ftest-coverage "
 
 matrix:
