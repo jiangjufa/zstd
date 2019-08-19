@@ -27,7 +27,7 @@ before_install:
   - pip install --user codecov
 
 before_script:
-  - export LDFLAGS="-lgcov "
+  - export LDFLAGS="-Wl,--whole-archive,-lgcov,--no-whole-archive "
   - export CFLAGS="--coverage "
 
 matrix:
