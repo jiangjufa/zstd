@@ -16,7 +16,7 @@ branches:
 addons:
   apt:
     update: true
-	packages:
+    packages:
       - lcov
 
 env:
