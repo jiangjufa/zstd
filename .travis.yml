@@ -215,7 +215,7 @@ matrix:
         - tree ./staging
 		
       after_success: 
-	    - make  GCOV=1
+	- make  GCOV=1
         - make check GCOV=1
         # Creating report
         - cd ${TRAVIS_BUILD_DIR}
