@@ -27,7 +27,7 @@ before_install:
   - pip install --user codecov
 
 before_script:
-  - export LDFLAGS="-lgcov --coverage "
+  - export LDFLAGS="-shared -fPIC -fvisibility=hidden -lgcov --coverage "
   - export CFLAGS="--coverage "
   - export CPPCFLAGS="--coverage "
 
