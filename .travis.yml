@@ -29,7 +29,7 @@ before_install:
 before_script:
   - export LDFLAGS="-lgcov --coverage "
   - export CXXFLAGS="--coverage "
-  - export CFLAGS="--coverage "
+  - export CFLAGS="-lgcov --coverage "
 
 matrix:
   fast_finish: true
