@@ -24,6 +24,7 @@ GCOV = 0
 ifeq ($(GCOV), 1)
 GCOV_FLAGS = -fprofile-arcs -ftest-coverage
 CFLAGS += $(GCOV_FLAGS)
+LDFLAGS += -lgcov $(GCOV_FLAGS)
 endif
 
 CPPFLAGS+= -I. -I./common -DXXH_NAMESPACE=ZSTD_
