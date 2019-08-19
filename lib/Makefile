@@ -19,6 +19,13 @@ LIBVER := $(shell echo $(LIBVER_SCRIPT))
 VERSION?= $(LIBVER)
 CCVER := $(shell $(CC) --version)
 
+#Code Coverage
+GCOV = 0
+ifeq ($(GCOV), 1)
+GCOV_FLAGS = -fprofile-arcs -ftest-coverage
+CFLAGS += $(GCOV_FLAGS)
+endif
+
 CPPFLAGS+= -I. -I./common -DXXH_NAMESPACE=ZSTD_
 ifeq ($(OS),Windows_NT)   # MinGW assumed
 CPPFLAGS   += -D__USE_MINGW_ANSI_STDIO   # compatibility with %zu formatting
