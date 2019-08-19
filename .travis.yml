@@ -25,7 +25,7 @@ env:
     
 before_install:
   - pip install --user codecov
-  - export LDFLAGS+="-lgcov --coverage "
+  - export LDFLAGS="-lgcov --coverage "
   - export CXXFLAGS="--coverage "
 
 matrix:
