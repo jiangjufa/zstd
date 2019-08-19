@@ -31,7 +31,7 @@ matrix:
   include:
     - name: Trusty (Test All)
       script:
-	    - make  GCOV=1
+        - make  GCOV=1
         - make check GCOV=1
 
       after_failure:
