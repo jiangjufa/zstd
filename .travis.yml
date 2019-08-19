@@ -31,14 +31,16 @@ matrix:
   include:
     - name: Trusty (Test All)
       script:
-        - make  test
+        - make  test GCOV=1
         
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6   CFLAGS=-Werror  make GCOV=1 -j all,check GCOV=1
+        - CC=gcc-6   CFLAGS=-Werror  make -j all GCOV=1
+        - make check GCOV=1
         - make clean
-        - CC=gcc-7  CFLAGS=-Werror make GCOV=1 -j all,check GCOV=1
+        - CC=gcc-7  CFLAGS=-Werror make -j all GCOV=1
+        - make check GCOV=1
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
