@@ -26,29 +26,25 @@ env:
 before_install:
   - pip install --user codecov
 
-before_script:
-  - export LDFLAGS="-shared -fPIC -fvisibility=hidden -lgcov --coverage "
-  - export CFLAGS="--coverage "
-  - export CPPCFLAGS="--coverage "
-
 matrix:
   fast_finish: true
   include:
     - name: Trusty (Test All)
       script:
         - make  test
-
+        
     - name: gcc-6 + gcc-7 compilation
       script:
         - make gcc6install gcc7install 
-        - CC=gcc-6   CFLAGS+=-Werror  make -j all
+        - CC=gcc-6   CFLAGS=-Werror  make -j all
         - make clean
-        - CC=gcc-7  CFLAGS+=-Werror make -j all 
+        - CC=gcc-7  CFLAGS=-Werror make -j all 
 
       after_failure:
         - cat "$TRAVIS_BUILD_DIR"/builddir/meson-logs/testlog.txt
       after_success: 
         # Creating report
+        - make check GCOV=1
         - cd ${TRAVIS_BUILD_DIR}
         - lcov --directory . --capture --output-file coverage.info # capture coverage info
         - lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter out system
